@@ -23,16 +23,19 @@ class ArrayQueryTest extends TestCase
                 'id' => 1,
                 'username' => 'admin',
                 'email' => 'admin@example.com',
+                'amount' => 100,
             ],
             [
                 'id' => 2,
                 'username' => 'test',
                 'email' => 'test@example.com',
+                'amount' => 200,
             ],
             [
                 'id' => 3,
                 'username' => 'guest',
                 'email' => 'guest@example.com',
+                'amount' => 300,
             ],
         ]);
     }
@@ -303,5 +306,23 @@ class ArrayQueryTest extends TestCase
         $this->assertCount(2, $rows);
         $this->assertEquals(2, $rows[0]['id']);
         $this->assertEquals(3, $rows[1]['id']);
+    }
+
+    public function testSum()
+    {
+        $query = $this->createArrayQuery();
+        $query->where(['like', 'email', 'est']);
+        $sum = $query->sum('amount');
+
+        $this->assertEquals(500.0, $sum);
+    }
+
+    public function testAverage()
+    {
+        $query = $this->createArrayQuery();
+        $query->where(['like', 'email', 'est']);
+        $average = $query->average('amount');
+
+        $this->assertEquals(250.0, $average);
     }
 }

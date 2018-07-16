@@ -94,6 +94,32 @@ class ArrayQuery extends Component
     }
 
     /**
+     * Returns the sum of the given index values.
+     *
+     * @return float
+     */
+    public function sum($index): float
+    {
+        $data = $this->fetchData();
+
+        return array_sum(array_map(function ($row) use ($index) {
+            return (float) $row[$index];
+        }, $data));
+    }
+
+    /**
+     * Returns the average of the given index values.
+     *
+     * @return float
+     */
+    public function average($index): float
+    {
+        $data = $this->fetchData();
+
+        return !empty($data) ? $this->sum($index) / count($data) : 0.0;
+    }
+
+    /**
      * Sets data to be selected from.
      *
      * @param array $data
